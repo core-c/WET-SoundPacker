@@ -1,0 +1,267 @@
+	#include "ui/menudef.h"
+
+	#define DEFAULT_TEXT_SCALE 0.25
+
+	#define ORIGIN_QUICKMESSAGE		10 10
+
+	#define QM_MENU_GRADIENT_START_OFFSET
+
+	#define QM_MENU_START( WINDOWNAME )																			\
+																												\
+menuDef {																										\
+	name		WINDOWNAME																						\
+	visible		0																								\
+	fullscreen	0																								\
+	rect		0 100 640 380																					\
+	onOpen		{ setCvar cl_bypassMouseInput "1" }																\
+	onClose		{ setCvar cl_bypassMouseInput "0" }																\
+	onEsc		{ closeAll }																					\
+																												\
+	itemDef {																									\
+		name		"window"																					\
+		rect		0 19 204 136																				\
+		origin		ORIGIN_QUICKMESSAGE																			\
+		style		WINDOW_STYLE_FILLED																			\
+		backcolor	0 0 0 .75																					\
+		border		WINDOW_BORDER_FULL																			\
+		bordercolor	.5 .5 .5 .5																					\
+		visible		1																							\
+		decoration																								\
+	}																											\
+																												\
+	itemDef {																									\
+		name		"windowtitle"																				\
+		rect		$evalfloat((0)+2) $evalfloat((19)+2) $evalfloat((204)-4) 12									\
+		origin		ORIGIN_QUICKMESSAGE																			\
+		text		"UJE Chats"																					\
+		textfont	UI_FONT_ARIBLK_16																			\
+		textscale	.19																							\
+		textalignx	3																							\
+		textaligny	10																							\
+		style		WINDOW_STYLE_FILLED																			\
+		backcolor	.16 .2 .17 .8																				\
+		forecolor	.6 .6 .6 1																					\
+		visible		1																							\
+		decoration																								\
+	}
+
+	#define QM_MENU_END }
+
+	#define QM_MENU_ITEM( WINDOWTEXT, ACTION, KEY, POS )				\
+    itemDef {															\
+		name			"menuitem"##WINDOWTEXT							\
+		rect			6 $evalfloat( 35 + ( 12 * POS )) 128 10			\
+		origin			ORIGIN_QUICKMESSAGE								\
+		type			ITEM_TYPE_TEXT									\
+		text			WINDOWTEXT										\
+		textfont		UI_FONT_COURBD_21								\
+		textstyle		ITEM_TEXTSTYLE_SHADOWED							\
+		textscale		.2												\
+		textaligny		8												\
+		forecolor		.6 .6 .6 1										\
+		visible			1												\
+		decoration														\
+    }																	\
+    execKey KEY { ACTION }
+
+	#define QM_MENU_ITEM_TEAM( WINDOWTEXT, ACTION, KEY, POS )			\
+    itemDef {															\
+		name			"menuitem"##WINDOWTEXT							\
+		rect			6 $evalfloat( 35 + ( 12 * POS )) 128 10			\
+		origin			ORIGIN_QUICKMESSAGE								\
+		type			ITEM_TYPE_TEXT									\
+		text			WINDOWTEXT										\
+		textfont		UI_FONT_COURBD_21								\
+		textstyle		ITEM_TEXTSTYLE_SHADOWED							\
+		textscale		.2												\
+		textaligny		8												\
+		forecolor		.6 .6 .6 1										\
+		visible			1												\
+		decoration														\
+    }																	\
+	execKey KEY { ACTION }
+
+QM_MENU_START( "wm_quickmessageAlt" )
+
+	QM_MENU_ITEM_TEAM( 	"^w1. ^5Statements", 	close wm_quickmessageAlt; 	open wm_quickstatements_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( 	"^w2. ^5Requests", 	close wm_quickmessageAlt; 	open wm_quickrequests_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( 	"^w3. ^5Commands", 	close wm_quickmessageAlt; 	open wm_quickcommand_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( 	"^w4. ^5Talk",		close wm_quickmessageAlt; 	open wm_quickmisc_alt, 		"4", 3 )
+	QM_MENU_ITEM( 		"^w5. ^2Global",	close wm_quickmessageAlt; 	open wm_quickglobal_alt, 	"5", 4 )
+	QM_MENU_ITEM_TEAM( 	"^w6. ^5Function", 	exec "wm_sayPlayerClass"; 	close wm_quickmessageAlt,	"6", 5 )
+	QM_MENU_ITEM_TEAM( 	"^w7. ^5Objectives", 	close wm_quickmessageAlt; 	open wm_quickobjectives_alt, 	"7", 6 )
+	QM_MENU_ITEM_TEAM( 	"^w8. ^5FireTeam", 	close wm_quickmessageAlt; 	open wm_quickFT_alt, 		"8", 7 )
+	QM_MENU_ITEM( 		"^w9. ^3Sounds",	close wm_quickmessageAlt; 	open wm_quickuje,		"9", 8 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickstatements_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. ^5Path Cleared.", 	exec "VoiceTeamChat PathCleared"; 		close wm_quickstatements_alt,	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. ^5Enemy Weak!", 	exec "VoiceTeamChat EnemyWeak"; 		close wm_quickstatements_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. ^5All Clear", 		exec "VoiceTeamChat AllClear"; 			close wm_quickstatements_alt,	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. ^5Incoming", 		exec "VoiceTeamChat Incoming"; 			close wm_quickstatements_alt,	"4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. ^5Fire In The Hole!", 	exec "VoiceTeamChat FireInTheHole"; 		close wm_quickstatements_alt,	"5", 4 )
+	QM_MENU_ITEM_TEAM( "^w6. ^5I'm Defending.", 	exec "VoiceTeamChat OnDefense"; 		close wm_quickstatements_alt,	"6", 5 )
+	QM_MENU_ITEM_TEAM( "^w7. ^5I'm Attacking.", 	exec "VoiceTeamChat OnOffense"; 		close wm_quickstatements_alt,	"7", 6 )
+	QM_MENU_ITEM_TEAM( "^w8. ^5Taking Fire!", 	exec "VoiceTeamChat TakingFire"; 		close wm_quickstatements_alt,	"8", 7 )
+	QM_MENU_ITEM_TEAM( "^w9. ^5Mines Cleared", 	exec "VoiceTeamChat MinesCleared"; 		close wm_quickstatements_alt,	"9", 8 )
+	QM_MENU_ITEM_TEAM( "^w0. ^5Enemy Disguised", 	exec "VoiceTeamChat EnemyDisguised";		close wm_quickstatements_alt,	"0", 9 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickrequests_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. ^5Need Medic!", 	exec "VoiceTeamChat Medic"; 		close wm_quickrequests_alt,	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. ^5Need Ammo!", 	exec "VoiceTeamChat NeedAmmo"; 		close wm_quickrequests_alt,	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. ^5Need Backup!",	exec "VoiceTeamChat NeedBackup"; 	close wm_quickrequests_alt,	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. ^5Need Engineer!", 	exec "VoiceTeamChat NeedEngineer"; 	close wm_quickrequests_alt,	"4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. ^5Cover Me!", 		exec "VoiceTeamChat CoverMe"; 		close wm_quickrequests_alt,	"5", 4 )
+	QM_MENU_ITEM_TEAM( "^w6. ^5Hold Fire!",		exec "VoiceTeamChat HoldFire";	 	close wm_quickrequests_alt,	"6", 5 )
+	QM_MENU_ITEM_TEAM( "^w7. ^5Where To?", 		exec "VoiceTeamChat WhereTo"; 		close wm_quickrequests_alt,	"7", 6 )
+	QM_MENU_ITEM_TEAM( "^w8. ^5Need Covert Ops!", 	exec "VoiceTeamChat NeedOps"; 		close wm_quickrequests_alt,	"8", 7 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickcommand_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. ^5Follow Me!", 	exec "VoiceTeamChat FollowMe"; 		close wm_quickcommand_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. ^5Let's Go!", 		exec "VoiceTeamChat LetsGo"; 		close wm_quickcommand_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. ^5Move!", 		exec "VoiceTeamChat Move"; 		close wm_quickcommand_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. ^5Clear The Path!", 	exec "VoiceTeamChat ClearPath"; 	close wm_quickcommand_alt, 	"4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. ^5Defend Objective!", 	exec "VoiceTeamChat DefendObjective"; 	close wm_quickcommand_alt, 	"5", 4 )
+	QM_MENU_ITEM_TEAM( "^w6. ^5Disarm Dynamite!", 	exec "VoiceTeamChat DisarmDynamite"; 	close wm_quickcommand_alt, 	"6", 5 )
+	QM_MENU_ITEM_TEAM( "^w7. ^5Clear Mines!", 	exec "VoiceTeamChat ClearMines"; 	close wm_quickcommand_alt, 	"7", 6 )
+	QM_MENU_ITEM_TEAM( "^w8. ^5Reinforce Offense", 	exec "VoiceTeamChat ReinforceOffense"; 	close wm_quickcommand_alt,	"8", 7 )
+	QM_MENU_ITEM_TEAM( "^w9. ^5Reinforce Defense", 	exec "VoiceTeamChat ReinforceDefense"; 	close wm_quickcommand_alt,	"9", 8 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickmisc_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. ^5Yes",		exec "VoiceTeamChat Affirmative"; 	close wm_quickmisc_alt, "1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. ^5No",			exec "VoiceTeamChat Negative"; 		close wm_quickmisc_alt, "2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. ^5Thanks",		exec "VoiceTeamChat Thanks"; 		close wm_quickmisc_alt, "3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. ^5Welcome",		exec "VoiceTeamChat Welcome"; 		close wm_quickmisc_alt, "4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. ^5Sorry",		exec "VoiceTeamChat Sorry"; 		close wm_quickmisc_alt, "5", 4 )
+	QM_MENU_ITEM_TEAM( "^w6. ^5Oops", 		exec "VoiceTeamChat Oops"; 		close wm_quickmisc_alt, "6", 5 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickglobal_alt" )
+
+	QM_MENU_ITEM( "^w1. ^2Yes",			exec "VoiceChat Affirmative"; 	close wm_quickglobal_alt, 	"1", 0 )
+	QM_MENU_ITEM( "^w2. ^2No",			exec "VoiceChat Negative"; 	close wm_quickglobal_alt, 	"2", 1 )
+	QM_MENU_ITEM( "^w3. ^2Enemy Weak",		exec "VoiceChat EnemyWeak";	close wm_quickglobal_alt, 	"3", 2 )
+	QM_MENU_ITEM( "^w4. ^2Hi",			exec "VoiceChat Hi"; 		close wm_quickglobal_alt, 	"4", 3 )
+	QM_MENU_ITEM( "^w5. ^2Bye",			exec "VoiceChat Bye"; 		close wm_quickglobal_alt, 	"5", 4 )
+	QM_MENU_ITEM( "^w6. ^2Great Shot",		exec "VoiceChat GreatShot"; 	close wm_quickglobal_alt, 	"6", 5 )
+	QM_MENU_ITEM( "^w7. ^2Cheer",			exec "VoiceChat Cheer"; 	close wm_quickglobal_alt, 	"7", 6 )
+	QM_MENU_ITEM( "^w8. ^2More Globals",		close wm_quickglobal_alt;	open wm_quickglobal2_alt, 	"8", 7 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickglobal2_alt" )
+
+	QM_MENU_ITEM( "^w1. ^2Thanks",			exec "VoiceChat Thanks";	close wm_quickglobal2_alt, 	"1", 0 )
+	QM_MENU_ITEM( "^w2. ^2Welcome",			exec "VoiceChat Welcome"; 	close wm_quickglobal2_alt, 	"2", 1 )
+	QM_MENU_ITEM( "^w3. ^2Oops",			exec "VoiceChat Oops"; 		close wm_quickglobal2_alt, 	"3", 2 )
+	QM_MENU_ITEM( "^w4. ^2Sorry",			exec "VoiceChat Sorry"; 	close wm_quickglobal2_alt, 	"4", 3 )
+	QM_MENU_ITEM( "^w5. ^2Hold Fire!",		exec "VoiceChat HoldFire";	close wm_quickglobal2_alt, 	"5", 4 )
+	QM_MENU_ITEM( "^w6. ^2Good Game",		exec "VoiceChat GoodGame";	close wm_quickglobal2_alt, 	"6", 5 )
+	
+QM_MENU_END
+
+QM_MENU_START( "wm_quickobjectives_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. ^5Command Acknowledged",		exec "VoiceTeamChat CommandAcknowledged"; 	close wm_quickobjectives_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. ^5Command Declined",			exec "VoiceTeamChat CommandDeclined";		close wm_quickobjectives_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. ^5Command Completed",			exec "VoiceTeamChat CommandCompleted";		close wm_quickobjectives_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. ^5Destroy Primary Objective",		exec "VoiceTeamChat DestroyPrimary"; 		close wm_quickobjectives_alt,	"4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. ^5Destroy Secondary Objective",	exec "VoiceTeamChat DestroySecondary";		close wm_quickobjectives_alt,	"5", 4 )
+	QM_MENU_ITEM_TEAM( "^w6. ^5Destroy Construction",		exec "VoiceTeamChat DestroyConstruction";	close wm_quickobjectives_alt,	"6", 5 )
+	QM_MENU_ITEM_TEAM( "^w7. ^5Commencing Construction",		exec "VoiceTeamChat ConstructionCommencing";	close wm_quickobjectives_alt, 	"7", 6 )
+	QM_MENU_ITEM_TEAM( "^w8. ^5Repair Vehicle",			exec "VoiceTeamChat RepairVehicle";		close wm_quickobjectives_alt,	"8", 7 )
+	QM_MENU_ITEM_TEAM( "^w9. ^5Disable Vehicle",			exec "VoiceTeamChat DestroyVehicle";		close wm_quickobjectives_alt,	"9", 8 )
+	QM_MENU_ITEM_TEAM( "^w0. ^5Escort Vehicle",			exec "VoiceTeamChat EscortVehicle";		close wm_quickobjectives_alt,	"0", 9 )
+
+QM_MENU_END
+
+
+
+
+
+
+
+QM_MENU_START( "wm_quickFT_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. Soldat",		close wm_quickFT_alt; 	open wm_quickFTSoldat_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. Medic",		close wm_quickFT_alt; 	open wm_quickFTMedic_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. Engineer",		close wm_quickFT_alt;	open wm_quickFTEngineer_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. Field-Ops.",		close wm_quickFT_alt;	open wm_quickFTFieldOps_alt, 	"4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. Covert-Ops.",		close wm_quickFT_alt; 	open wm_quickFTCovertOps_alt,	"5", 4 )
+	QM_MENU_ITEM_TEAM( "^w6. General",		close wm_quickFT_alt;	open wm_quickFTGeneral_alt,	"6", 5 )
+
+QM_MENU_END
+
+
+QM_MENU_START( "wm_quickFTSoldat_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. Soldier Cover Me",	exec "VoiceTeamChat FTCoveringFire";	close wm_quickFTSoldat_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. Deploy Mortar",	exec "VoiceTeamChat FTMortar";	 	close wm_quickFTSoldat_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. Call Mortar Barrage",	exec "VoiceTeamChat FTMortarBarrage";	close wm_quickFTSoldat_alt, 	"3", 2 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickFTMedic_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. Heal Me",		exec "VoiceTeamChat FTHealMe"; 		close wm_quickFTMedic_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. Heal The Squad",	exec "VoiceTeamChat FTHealSquad";	close wm_quickFTMedic_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. Revive Me",		exec "VoiceTeamChat FTReviveMe";	close wm_quickFTMedic_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. Revive Teammate",	exec "VoiceTeamChat FTReviveTeammate"; 	close wm_quickFTMedic_alt,	"4", 3 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickFTFieldOps_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. Resupply Me",		exec "VoiceTeamChat FTResupplyMe"; 	close wm_quickFTFieldOps_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. Resupply The Squad",	exec "VoiceTeamChat FTResupplySquad";	close wm_quickFTFieldOps_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. Call An Airstrike",	exec "VoiceTeamChat FTCallAirStrike";	close wm_quickFTFieldOps_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. Call For Artillary",	exec "VoiceTeamChat FTCallArtillary"; 	close wm_quickFTFieldOps_alt,	"4", 3 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickFTEngineer_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. Construct Objective",	exec "VoiceTeamChat FTConstructObjective"; 	close wm_quickFTEngineer_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. Destroy Objective",	exec "VoiceTeamChat FTDestroyObjective";	close wm_quickFTEngineer_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. Disarm The Dynamite",	exec "VoiceTeamChat FTDisarmDynamite";		close wm_quickFTEngineer_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. Deploy Landmines",	exec "VoiceTeamChat FTDeployLandmines";		close wm_quickFTEngineer_alt, 	"4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. Disarm Landmines",	exec "VoiceTeamChat FTDisarmLandmines";		close wm_quickFTEngineer_alt, 	"5", 4 )
+
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickFTCovertOps_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. Check For Landmines",	exec "VoiceTeamChat FTCheckLandmines"; 		close wm_quickFTCovertOps_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. Go Undercover",	exec "VoiceTeamChat FTGoUndercover";		close wm_quickFTCovertOps_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. Infiltrate",		exec "VoiceTeamChat FTInfiltrate";		close wm_quickFTCovertOps_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. Provide Sniper Cover",	exec "VoiceTeamChat FTProvideSniperCover";	close wm_quickFTCovertOps_alt, 	"4", 3 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickFTGeneral_alt" )
+
+	QM_MENU_ITEM_TEAM( "^w1. Explore The Area",	exec "VoiceTeamChat FTExploreArea"; 		close wm_quickFTGeneral_alt, 	"1", 0 )
+	QM_MENU_ITEM_TEAM( "^w2. Fallback",		exec "VoiceTeamChat FTFallBack";		close wm_quickFTGeneral_alt, 	"2", 1 )
+	QM_MENU_ITEM_TEAM( "^w3. Attack",		exec "VoiceTeamChat FTAttack";			close wm_quickFTGeneral_alt, 	"3", 2 )
+	QM_MENU_ITEM_TEAM( "^w4. Fire On My Target",	exec "VoiceTeamChat FireOnTarget";		close wm_quickFTGeneral_alt, 	"4", 3 )
+	QM_MENU_ITEM_TEAM( "^w5. On My Way",		exec "VoiceTeamChat OnMyWay";			close wm_quickFTGeneral_alt, 	"5", 4 )
+	QM_MENU_ITEM_TEAM( "^w6. Follow Me",		exec "VoiceTeamChat FollowMe";			close wm_quickFTGeneral_alt, 	"6", 5 )
+
+QM_MENU_END
+
+QM_MENU_START( "wm_quickuje" )
+
+QM_MENU_END

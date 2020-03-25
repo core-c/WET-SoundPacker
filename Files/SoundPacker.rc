@@ -1,0 +1,5 @@
+VoiceAllies TXT "wm_allies_chat.voice"
+VoiceAxis   TXT "wm_axis_chat.voice"
+MsgMenu     TXT "wm_quickmessage.menu"
+MsgAltMenu  TXT "wm_quickmessageAlt.menu"
+MsgAltShort TXT "wm_quickmessageAlt.menu.short"
